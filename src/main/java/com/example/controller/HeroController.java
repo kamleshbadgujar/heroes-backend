@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.model.Hero;
 
 @CrossOrigin("*")
-@RolesAllowed("heroes-user")
 @RestController
 @RequestMapping("/api/heroes")
 public class HeroController {
@@ -23,11 +22,13 @@ public class HeroController {
             new Hero(3, "Pieter"));
 
     @GetMapping
+    @RolesAllowed("heroes-user")
     public List<Hero> heroes() {
         return someHeroes;
     }
 
     @GetMapping("/{id}")
+    @RolesAllowed("heroes-admin")
     public Hero hero(@PathVariable("id") String id) {
         return someHeroes.stream()
                 .filter(h -> Integer.toString(h.getId()).equals(id))
